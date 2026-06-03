@@ -28,7 +28,7 @@
   .head-in .obj{margin-left:auto;font-size:.85rem;color:var(--ink-2);max-width:42ch}
 
   main{width:min(1180px,94vw);margin:28px auto;display:grid;grid-template-columns:300px 1fr;gap:26px;align-items:start}
-  @media(max-width:900px){main{grid-template-columns:1fr}.side{position:static}}
+  @media(max-width:900px){main{grid-template-columns:1fr}}
 
   /* intro */
   .intro{grid-column:1/-1;background:linear-gradient(150deg,var(--ink),#2a1f30);color:#fff;border-radius:20px;padding:28px 30px;box-shadow:var(--shadow)}
@@ -38,7 +38,8 @@
   .intro .legend b{color:var(--magenta-soft)}
 
   /* lista materias */
-  .side{position:sticky;top:90px}
+  .side{position:static}
+  @media(min-width:901px){.side{position:sticky;top:90px}}
   .nivel-group{margin-bottom:18px}
   .nivel-group>span{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);font-weight:700;margin:0 0 8px 4px}
   .mat-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 14px;margin-bottom:8px;cursor:pointer;transition:.2s;font-size:.92rem;font-weight:500;color:var(--ink)}
