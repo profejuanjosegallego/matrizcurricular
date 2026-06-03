@@ -28,7 +28,7 @@
   .head-in .obj{margin-left:auto;font-size:.85rem;color:var(--ink-2);max-width:42ch}
 
   main{width:min(1180px,94vw);margin:28px auto;display:grid;grid-template-columns:300px 1fr;gap:26px;align-items:start}
-  @media(max-width:900px){main{grid-template-columns:1fr}}
+  @media(max-width:900px){main{grid-template-columns:1fr}.side{position:static}}
 
   /* intro */
   .intro{grid-column:1/-1;background:linear-gradient(150deg,var(--ink),#2a1f30);color:#fff;border-radius:20px;padding:28px 30px;box-shadow:var(--shadow)}
@@ -58,8 +58,10 @@
 
   /* aportes existentes */
   .aporte{border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;background:var(--mist)}
-  .aporte .who{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-  .aporte .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--magenta),var(--magenta-soft));color:#fff;display:grid;place-items:center;font-weight:700;font-size:.9rem}
+  .aporte .who{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .aporte .who>div:not(.av){flex:1;min-width:0}
+  .aporte .who b{overflow-wrap:anywhere}
+  .aporte .av{flex:none;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--magenta),var(--magenta-soft));color:#fff;display:grid;place-items:center;font-weight:700;font-size:.9rem}
   .aporte .who b{font-family:'Poppins';font-size:.98rem}
   .aporte .who small{color:var(--ink-2);font-size:.75rem}
   .aporte .comp{font-size:.92rem;color:var(--ink-2);font-style:italic;margin-bottom:12px;padding-left:12px;border-left:3px solid var(--magenta)}
@@ -69,6 +71,15 @@
   .ss span{display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--magenta);margin-bottom:5px}
   .ss p{font-size:.86rem;color:var(--ink-2);white-space:pre-wrap}
   .empty{color:var(--ink-2);font-size:.9rem;padding:18px;text-align:center;background:var(--mist);border-radius:12px;border:1px dashed var(--line)}
+  @media(max-width:560px){
+    .head-in .obj{display:none}
+    main{margin-top:16px;gap:18px}
+    .intro{padding:22px 20px}
+    .panel{padding:18px 16px;border-radius:16px}
+    .aporte{padding:15px}
+    .edit-btn{font-size:.72rem;padding:5px 10px}
+    .row3{gap:10px}
+  }
 
   /* formularios */
   form{margin-top:4px}
