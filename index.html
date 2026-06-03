@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Matriz del Consultor · Desarrollo de Software CESDE</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2288%22>💡</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --magenta:#E6007E;--magenta-dark:#B80064;--magenta-soft:#ff4fb0;
+    --ink:#1c1622;--ink-2:#3a2f43;--paper:#fff;--mist:#faf5f9;
+    --line:rgba(230,0,126,.16);--shadow:0 18px 50px -22px rgba(230,0,126,.45);
+    --ok:#1aa260;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--mist);line-height:1.55}
+  h1,h2,h3,h4,.brand{font-family:'Poppins',sans-serif}
+  a{color:inherit}
+
+  header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  .head-in{width:min(1180px,94vw);margin-inline:auto;padding:16px 0;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .dot{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--magenta),var(--magenta-soft));display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:var(--shadow)}
+  .brand{font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
+  .brand small{display:block;font-weight:500;font-size:.66rem;letter-spacing:.16em;color:var(--magenta);text-transform:uppercase;font-family:'Inter'}
+  .head-in .obj{margin-left:auto;font-size:.85rem;color:var(--ink-2);max-width:42ch}
+
+  main{width:min(1180px,94vw);margin:28px auto;display:grid;grid-template-columns:300px 1fr;gap:26px;align-items:start}
+  @media(max-width:900px){main{grid-template-columns:1fr}}
+
+  /* intro */
+  .intro{grid-column:1/-1;background:linear-gradient(150deg,var(--ink),#2a1f30);color:#fff;border-radius:20px;padding:28px 30px;box-shadow:var(--shadow)}
+  .intro h2{font-size:1.4rem;margin-bottom:8px}
+  .intro p{color:rgba(255,255,255,.82);font-size:.96rem;max-width:90ch}
+  .intro .legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:.82rem}
+  .intro .legend b{color:var(--magenta-soft)}
+
+  /* lista materias */
+  .side{position:sticky;top:90px}
+  .nivel-group{margin-bottom:18px}
+  .nivel-group>span{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);font-weight:700;margin:0 0 8px 4px}
+  .mat-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 14px;margin-bottom:8px;cursor:pointer;transition:.2s;font-size:.92rem;font-weight:500;color:var(--ink)}
+  .mat-btn:hover{border-color:var(--magenta);transform:translateX(3px)}
+  .mat-btn.active{background:linear-gradient(120deg,var(--magenta),var(--magenta-dark));color:#fff;border-color:transparent;box-shadow:var(--shadow)}
+  .mat-btn .cnt{margin-left:auto;font-size:.7rem;font-weight:700;background:var(--mist);color:var(--magenta);border-radius:999px;padding:3px 9px}
+  .mat-btn.active .cnt{background:rgba(255,255,255,.22);color:#fff}
+
+  /* panel */
+  .panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3vw,34px);box-shadow:0 10px 40px -28px rgba(230,0,126,.5)}
+  .panel .tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:linear-gradient(120deg,var(--magenta),var(--magenta-dark));padding:5px 12px;border-radius:999px}
+  .panel h2{font-size:clamp(1.4rem,3vw,1.9rem);margin:12px 0 4px;letter-spacing:-.02em}
+  .panel .sub{color:var(--ink-2);font-size:.92rem;margin-bottom:22px}
+
+  .block-title{font-size:1.05rem;margin:28px 0 14px;display:flex;align-items:center;gap:10px}
+  .block-title::before{content:"";width:8px;height:20px;border-radius:4px;background:linear-gradient(var(--magenta),var(--magenta-soft))}
+
+  /* aportes existentes */
+  .aporte{border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;background:var(--mist)}
+  .aporte .who{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .aporte .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--magenta),var(--magenta-soft));color:#fff;display:grid;place-items:center;font-weight:700;font-size:.9rem}
+  .aporte .who b{font-family:'Poppins';font-size:.98rem}
+  .aporte .who small{color:var(--ink-2);font-size:.75rem}
+  .aporte .comp{font-size:.92rem;color:var(--ink-2);font-style:italic;margin-bottom:12px;padding-left:12px;border-left:3px solid var(--magenta)}
+  .ss-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  @media(max-width:640px){.ss-grid{grid-template-columns:1fr}}
+  .ss{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px}
+  .ss span{display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--magenta);margin-bottom:5px}
+  .ss p{font-size:.86rem;color:var(--ink-2);white-space:pre-wrap}
+  .empty{color:var(--ink-2);font-size:.9rem;padding:18px;text-align:center;background:var(--mist);border-radius:12px;border:1px dashed var(--line)}
+
+  /* formularios */
+  form{margin-top:4px}
+  .field{margin-bottom:14px}
+  label{display:block;font-size:.82rem;font-weight:600;margin-bottom:5px;color:var(--ink)}
+  label .hint{font-weight:400;color:var(--ink-2);font-size:.78rem}
+  input,select,textarea{width:100%;font-family:inherit;font-size:.92rem;color:var(--ink);background:var(--mist);border:1px solid var(--line);border-radius:11px;padding:11px 13px;transition:.2s;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--magenta);background:#fff;box-shadow:0 0 0 3px rgba(230,0,126,.12)}
+  select{cursor:pointer}
+  .aporte.pendiente{opacity:.92}
+  .edit-btn{margin-left:auto;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;color:var(--magenta-dark);font-family:'Inter';font-weight:600;font-size:.74rem;letter-spacing:.02em;padding:6px 13px;border-radius:999px;cursor:pointer;transition:.2s;white-space:nowrap}
+  .edit-btn:hover{border-color:var(--magenta);background:#fff3f8;transform:translateY(-1px)}
+  /* IA / sintesis */
+  .ai-help{font-size:.86rem;color:var(--ink-2);margin-bottom:12px}
+  .ai-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}
+  .btn.ai{background:linear-gradient(120deg,#7a23c2,var(--magenta));color:#fff;box-shadow:var(--shadow)}
+  .btn.ai:hover{transform:translateY(-2px)}
+  .btn.line{background:#fff;border:1px solid var(--line);color:var(--ink)}
+  .btn.line:hover{border-color:var(--magenta);color:var(--magenta)}
+  .prompt-toggle{margin-left:auto;background:none;border:0;cursor:pointer;font-family:'Inter';font-size:.78rem;color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;opacity:.7;transition:.2s;padding:4px}
+  .prompt-toggle:hover{opacity:1;color:var(--magenta)}
+  .prompt-box{white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;background:#1c1622;color:#f3e9f0;border-radius:12px;padding:16px 18px;margin-bottom:14px;max-height:340px;overflow:auto;line-height:1.55;border:1px solid rgba(255,255,255,.08)}
+  textarea{min-height:80px}
+  .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:640px){.row3{grid-template-columns:1fr}}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font-family:'Poppins';font-weight:600;font-size:.92rem;padding:12px 22px;border-radius:999px;transition:.25s}
+  .btn.primary{background:linear-gradient(120deg,var(--magenta),var(--magenta-dark));color:#fff;box-shadow:var(--shadow)}
+  .btn.primary:hover{transform:translateY(-2px)}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .msg{font-size:.85rem;margin-left:12px;font-weight:600}
+  .msg.ok{color:var(--ok)}.msg.err{color:var(--magenta-dark)}
+
+  /* definicion unica */
+  .def-box{background:linear-gradient(150deg,rgba(230,0,126,.06),rgba(255,79,176,.08));border:1px solid var(--line);border-radius:16px;padding:20px}
+  .def-box textarea{background:#fff;min-height:120px}
+
+  .banner{grid-column:1/-1;background:#fff3f8;border:1px solid var(--line);color:var(--magenta-dark);padding:14px 18px;border-radius:14px;font-size:.88rem;display:none}
+  .banner.show{display:block}
+  footer{text-align:center;padding:30px;color:var(--ink-2);font-size:.82rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-in">
+    <span class="dot">C</span>
+    <span class="brand">Matriz del Consultor<small>CESDE · Desarrollo de Software</small></span>
+    <span class="obj">Construcción colectiva del perfil del consultor por submódulo, como base para los ajustes del programa.</span>
+  </div>
+</header>
+
+<main>
+  <div class="banner" id="banner"></div>
+
+  <div class="intro">
+    <h2>¿Cómo entendemos al consultor en cada submódulo?</h2>
+    <p>Cada docente describe, para la materia seleccionada, cómo comprende el perfil del <strong>consultor</strong> y qué debería <strong>saber</strong>, <strong>saber-hacer</strong> y <strong>saber-ser</strong>. Con los aportes de los tres docentes se construye al final una <strong>definición única</strong> por submódulo, sobre la cual se inician los ajustes del programa.</p>
+    <div class="legend">
+      <span><b>SABER</b> — conocimientos / conceptos</span>
+      <span><b>SABER-HACER</b> — habilidades / práctica</span>
+      <span><b>SABER-SER</b> — actitudes / valores</span>
+    </div>
+  </div>
+
+  <aside class="side" id="side"></aside>
+
+  <section class="panel" id="panel">
+    <p style="color:var(--ink-2)">Cargando…</p>
+  </section>
+</main>
+
+<footer>CESDE · Técnico Laboral como Asistente en Desarrollo de Software — instrumento interno de construcción curricular.</footer>
+
+<script>
+const MATERIAS = [
+  {id:'logica',     nombre:'Lógica de Programación',              nivel:'Nivel 1 · Fundamentos'},
+  {id:'intro',      nombre:'Introducción a la Programación',      nivel:'Nivel 1 · Fundamentos'},
+  {id:'bd',         nombre:'Gestión de Bases de Datos',           nivel:'Nivel 1 · Fundamentos'},
+  {id:'agiles',     nombre:'Metodologías Ágiles',                 nivel:'Nivel 2 · Construcción'},
+  {id:'backend1',   nombre:'Backend I',                           nivel:'Nivel 2 · Construcción'},
+  {id:'frontend1',  nombre:'Frontend I',                          nivel:'Nivel 2 · Construcción'},
+  {id:'nuevastec',  nombre:'Nuevas Tecnologías de Programación',  nivel:'Nivel 3 · Especialización'},
+  {id:'backend2',   nombre:'Backend II',                          nivel:'Nivel 3 · Especialización'},
+  {id:'frontend2',  nombre:'Frontend II',                         nivel:'Nivel 3 · Especialización'},
+];
+
+const PROFESORES = ['Valeria Grajales', 'Bernardo Mira', 'Juan José Gallego'];
+
+let state = { aportes: [], definiciones: {}, activa: 'logica' };
+
+function initial(n){ return (n||'?').trim().charAt(0).toUpperCase(); }
+function esc(s){ return (s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function aportesDe(id){ return state.aportes.filter(a=>a.materiaId===id); }
+
+function showBanner(txt){ const b=document.getElementById('banner'); b.textContent=txt; b.classList.add('show'); }
+
+async function loadAll(){
+  try{
+    const [aRes, dRes] = await Promise.all([ fetch('/api/aportes'), fetch('/api/definicion') ]);
+    if(!aRes.ok || !dRes.ok) throw new Error('Respuesta no válida del servidor');
+    state.aportes = await aRes.json();
+    const defs = await dRes.json();
+    state.definiciones = {};
+    defs.forEach(d=> state.definiciones[d.materiaId]=d.definicion);
+  }catch(e){
+    showBanner('⚠️ No se pudo conectar con la base de datos. Verifica que la variable MONGODB_URI esté configurada en Vercel. (' + e.message + ')');
+  }
+  renderSide(); renderPanel();
+}
+
+function renderSide(){
+  const side = document.getElementById('side');
+  const niveles = [...new Set(MATERIAS.map(m=>m.nivel))];
+  side.innerHTML = niveles.map(nv=>`
+    <div class="nivel-group">
+      <span>${esc(nv)}</span>
+      ${MATERIAS.filter(m=>m.nivel===nv).map(m=>{
+        const n = aportesDe(m.id).length;
+        return `<button class="mat-btn ${m.id===state.activa?'active':''}" onclick="selectMat('${m.id}')">
+          ${esc(m.nombre)} <span class="cnt">${n}/3</span>
+        </button>`;
+      }).join('')}
+    </div>`).join('');
+}
+
+function selectMat(id){ state.activa=id; renderSide(); renderPanel(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+function renderPanel(){
+  const m = MATERIAS.find(x=>x.id===state.activa);
+  const lista = aportesDe(m.id);
+  const def = state.definiciones[m.id] || '';
+  const hechos = PROFESORES.filter(n => lista.some(a => a.profesor === n)).length;
+
+  const aportesHTML = PROFESORES.map(nombre => {
+    const a = lista.find(x => x.profesor === nombre);
+    if (!a) {
+      return `<div class="aporte pendiente">
+        <div class="who"><div class="av">${esc(initial(nombre))}</div>
+          <div><b>${esc(nombre)}</b><br><small>Pendiente de aporte</small></div>
+          <button class="edit-btn" onclick="editarAporte('${esc(nombre)}')" title="Registrar aporte">✏️ Pendiente</button>
+        </div>
+        <div class="empty">Aún no ha registrado su aporte para este submódulo.</div>
+      </div>`;
+    }
+    return `<div class="aporte">
+      <div class="who"><div class="av">${esc(initial(a.profesor))}</div>
+        <div><b>${esc(a.profesor)}</b><br><small>Actualizado el ${a.updatedAt ? new Date(a.updatedAt).toLocaleDateString('es-CO') : ''}</small></div>
+        <button class="edit-btn" onclick="editarAporte('${esc(a.profesor)}')" title="Editar aporte">✏️ Editar</button>
+      </div>
+      ${a.comprension ? `<div class="comp">“${esc(a.comprension)}”</div>` : ''}
+      <div class="ss-grid">
+        <div class="ss"><span>Saber</span><p>${esc(a.saber) || '—'}</p></div>
+        <div class="ss"><span>Saber-hacer</span><p>${esc(a.saberHacer) || '—'}</p></div>
+        <div class="ss"><span>Saber-ser</span><p>${esc(a.saberSer) || '—'}</p></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('panel').innerHTML = `
+    <span class="tag">${esc(m.nivel)}</span>
+    <h2>${esc(m.nombre)}</h2>
+    <p class="sub">${hechos}/3 docentes han aportado · se construye en conjunto la definición del consultor para este submódulo.</p>
+
+    <div class="block-title">Aportes de los docentes</div>
+    ${aportesHTML}
+
+    <div class="block-title">Registrar / editar mi aporte</div>
+    <form id="form-aporte" onsubmit="return guardarAporte(event)">
+      <div class="field">
+        <label>Docente <span class="hint">(seleccione su nombre; al elegirlo se cargará su aporte para editarlo)</span></label>
+        <select name="profesor" required onchange="prefill(this.value)">
+          <option value="">— Seleccione su nombre —</option>
+          ${PROFESORES.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label>¿Cómo entiendes al <em>consultor</em> en este submódulo?</label>
+        <textarea name="comprension" placeholder="Describe tu visión del perfil del consultor para esta materia…"></textarea>
+      </div>
+      <div class="row3">
+        <div class="field"><label>Saber <span class="hint">(conocimientos)</span></label><textarea name="saber"></textarea></div>
+        <div class="field"><label>Saber-hacer <span class="hint">(habilidades)</span></label><textarea name="saberHacer"></textarea></div>
+        <div class="field"><label>Saber-ser <span class="hint">(actitudes)</span></label><textarea name="saberSer"></textarea></div>
+      </div>
+      <button class="btn primary" type="submit">Guardar aporte</button>
+      <span class="msg" id="msg-aporte"></span>
+    </form>
+
+    <div class="block-title">Definición única del consultor (construcción colectiva)</div>
+    <div class="def-box">
+      <p class="ai-help">Genera una propuesta de síntesis con <strong>IA (Groq)</strong> a partir de los aportes de los tres docentes. Pueden revisar el <em>prompt</em> que se utiliza y editar el resultado antes de guardarlo.</p>
+      <div class="ai-row">
+        <button type="button" class="btn ai" id="btn-ai" onclick="generarSintesis()">Generar síntesis con IA</button>
+        <span class="msg" id="msg-ai"></span>
+        <button type="button" class="prompt-toggle" onclick="verPrompt()">Ver prompt</button>
+      </div>
+      <pre class="prompt-box" id="prompt-box" hidden></pre>
+      <form id="form-def" onsubmit="return guardarDef(event)">
+        <div class="field">
+          <label>Síntesis acordada por el equipo para <strong>${esc(m.nombre)}</strong></label>
+          <textarea name="definicion" placeholder="Redacten aquí la definición unificada que servirá de base para los ajustes del programa…">${esc(def)}</textarea>
+        </div>
+        <button class="btn primary" type="submit">Guardar definición</button>
+        <span class="msg" id="msg-def"></span>
+      </form>
+    </div>
+  `;
+}
+
+function prefill(nombre){
+  const a = aportesDe(state.activa).find(x => x.profesor === nombre);
+  const f = document.getElementById('form-aporte');
+  f.comprension.value = a ? a.comprension : '';
+  f.saber.value       = a ? a.saber : '';
+  f.saberHacer.value  = a ? a.saberHacer : '';
+  f.saberSer.value    = a ? a.saberSer : '';
+}
+
+// Lleva al formulario de edición y precarga el aporte del docente
+function editarAporte(nombre){
+  const f = document.getElementById('form-aporte');
+  f.profesor.value = nombre;
+  prefill(nombre);
+  f.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => f.comprension.focus(), 450);
+}
+
+// Genera la síntesis con IA (Groq) a partir de los aportes
+async function generarSintesis(){
+  const btn = document.getElementById('btn-ai');
+  const msg = document.getElementById('msg-ai');
+  btn.disabled = true; msg.textContent = 'Generando con IA…'; msg.className = 'msg';
+  try{
+    const r = await fetch('/api/sintesis', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ materiaId: state.activa })});
+    const data = await r.json();
+    if(!r.ok) throw new Error(data.error || 'Error');
+    document.getElementById('form-def').definicion.value = data.sintesis;
+    const pb = document.getElementById('prompt-box'); pb.textContent = data.prompt; pb.hidden = true;
+    msg.textContent = '✓ Propuesta generada. Revísenla, ajústenla y guárdenla.'; msg.className = 'msg ok';
+  }catch(e){ msg.textContent = '✗ ' + e.message; msg.className = 'msg err'; }
+  finally{ btn.disabled = false; }
+}
+
+// Muestra/oculta el prompt exacto que usa la IA
+async function verPrompt(){
+  const pb = document.getElementById('prompt-box');
+  if(!pb.hidden){ pb.hidden = true; return; }
+  if(pb.textContent){ pb.hidden = false; return; }   // ya disponible: solo mostrar
+  const msg = document.getElementById('msg-ai');
+  try{
+    const r = await fetch('/api/sintesis', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ materiaId: state.activa, soloPrompt: true })});
+    const data = await r.json();
+    if(!r.ok) throw new Error(data.error || 'Error');
+    pb.textContent = data.prompt; pb.hidden = false;
+  }catch(e){ msg.textContent = '✗ ' + e.message; msg.className = 'msg err'; }
+}
+
+async function guardarAporte(ev){
+  ev.preventDefault();
+  const f = ev.target, btn = f.querySelector('button'), msg = document.getElementById('msg-aporte');
+  const body = {
+    materiaId: state.activa,
+    profesor: f.profesor.value,
+    comprension: f.comprension.value,
+    saber: f.saber.value,
+    saberHacer: f.saberHacer.value,
+    saberSer: f.saberSer.value
+  };
+  btn.disabled=true; msg.textContent='Guardando…'; msg.className='msg';
+  try{
+    const r = await fetch('/api/aportes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok) throw new Error((await r.json()).error||'Error');
+    msg.textContent='✓ Guardado'; msg.className='msg ok';
+    await loadAll();
+  }catch(e){ msg.textContent='✗ '+e.message; msg.className='msg err'; }
+  finally{ btn.disabled=false; }
+  return false;
+}
+
+async function guardarDef(ev){
+  ev.preventDefault();
+  const f = ev.target, btn=f.querySelector('button'), msg=document.getElementById('msg-def');
+  btn.disabled=true; msg.textContent='Guardando…'; msg.className='msg';
+  try{
+    const r = await fetch('/api/definicion',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({materiaId:state.activa, definicion:f.definicion.value})});
+    if(!r.ok) throw new Error((await r.json()).error||'Error');
+    msg.textContent='✓ Definición guardada'; msg.className='msg ok';
+    state.definiciones[state.activa]=f.definicion.value;
+  }catch(e){ msg.textContent='✗ '+e.message; msg.className='msg err'; }
+  finally{ btn.disabled=false; }
+  return false;
+}
+
+loadAll();
+</script>
+</body>
+</html>

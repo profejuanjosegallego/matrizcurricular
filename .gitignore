@@ -1,0 +1,7 @@
+node_modules
+.env
+.env.local
+.vercel
+dev-server.js
+_test-conn.js
+seed-juanjose.js

@@ -1,0 +1,12 @@
+{
+  "name": "matriz-consultor-cesde",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Instrumento colaborativo para definir el perfil del consultor por submodulo (saber / saber-hacer / saber-ser) - CESDE Desarrollo de Software",
+  "dependencies": {
+    "mongodb": "^6.12.0"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}
